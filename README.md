@@ -1,1 +1,1 @@
-# maze-solver
+# Project that delves into auto generating a maze and solving it
