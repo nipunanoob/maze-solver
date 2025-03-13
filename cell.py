@@ -14,6 +14,7 @@ class Cell():
         self._y1 = 0
         self._x2 = 0
         self._y2 = 0
+        
     
     def draw(self, canvas:Canvas, x1, y1, x2, y2, fill_color):
 
@@ -47,4 +48,18 @@ class Cell():
         if self.has_down_wall:
             l4.draw(canvas, fill_color)
             
+    def draw_move(self, canvas: Canvas, to_cell: "Cell", undo=False):
+        first_cell_center = Point(
+            (self._x1 + self._x2) // 2,  # Calculate x-coordinate center
+            (self._y1 + self._y2) // 2   # Calculate y-coordinate center
+        )
+        second_cell_center = Point(
+            (to_cell._x1 + to_cell._x2) // 2,
+            (to_cell._y1 + to_cell._y2) // 2
+        )
 
+        line = Line(first_cell_center, second_cell_center)
+        if undo:
+            line.draw(canvas, "gray")
+        else:
+            line.draw(canvas, "red")
