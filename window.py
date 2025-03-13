@@ -28,6 +28,8 @@ class Window():
     def close(self):
         self.__running = False
     
-    def draw_line(self, line, fill_color):
+    def draw_line(self, line, fill_color="black"):
         line.draw(self.__canvas, fill_color)
 
+    def draw_cell(self, cell, x1, y1, x2, y2, fill_color="black"):
+        cell.draw(self.__canvas, x1, y1, x2, y2, fill_color)
