@@ -1,9 +1,10 @@
 from line import Point, Line
 from tkinter import Tk, BOTH, Canvas
+from window import Window
 
 class Cell():
 
-    def __init__(self, has_left_wall=True, has_top_wall=True, has_right_wall=True, has_down_wall=True):
+    def __init__(self, win: Window, has_left_wall=True, has_top_wall=True, has_right_wall=True, has_down_wall=True):
 
         self.has_left_wall = has_left_wall
         self.has_right_wall = has_right_wall
@@ -14,9 +15,11 @@ class Cell():
         self._y1 = 0
         self._x2 = 0
         self._y2 = 0
+
+        self.win=win
         
     
-    def draw(self, canvas:Canvas, x1, y1, x2, y2, fill_color):
+    def draw(self, x1, y1, x2, y2, fill_color="black"):
 
         if (x2 <= x1 or y2 <= y1):
             raise Exception("Draw() accepts (x,y) of top left and bottom right respectively")
@@ -37,18 +40,18 @@ class Cell():
         l4 = Line(p3, p4) #Bot
 
         if self.has_left_wall:
-            l1.draw(canvas, fill_color)
+            l1.draw(self.win.get_canvas(), fill_color)
             
         if self.has_top_wall:
-            l2.draw(canvas, fill_color)
+            l2.draw(self.win.get_canvas(), fill_color)
             
         if self.has_right_wall:
-            l3.draw(canvas, fill_color)
+            l3.draw(self.win.get_canvas(), fill_color)
             
         if self.has_down_wall:
-            l4.draw(canvas, fill_color)
+            l4.draw(self.win.get_canvas(), fill_color)
             
-    def draw_move(self, canvas: Canvas, to_cell: "Cell", undo=False):
+    def draw_move(self, to_cell: "Cell", undo=False):
         first_cell_center = Point(
             (self._x1 + self._x2) // 2,  # Calculate x-coordinate center
             (self._y1 + self._y2) // 2   # Calculate y-coordinate center
@@ -60,6 +63,6 @@ class Cell():
 
         line = Line(first_cell_center, second_cell_center)
         if undo:
-            line.draw(canvas, "gray")
+            line.draw(self.win.get_canvas(), "gray")
         else:
-            line.draw(canvas, "red")
+            line.draw(self.win.get_canvas(), "red")

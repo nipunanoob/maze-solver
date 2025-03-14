@@ -11,7 +11,7 @@ class Window():
         self.__root.title("Test title")
         self.__root.protocol("WM_DELETE_WINDOW", self.close)
 
-        self.__canvas = Canvas(self.__root)
+        self.__canvas = Canvas(self.__root, width = width, height=height)
         self.__canvas.pack(fill="both", expand=True)
 
         self.__running = False
@@ -32,7 +32,7 @@ class Window():
         line.draw(self.__canvas, fill_color)
 
     def draw_cell(self, cell, x1, y1, x2, y2, fill_color="black"):
-        cell.draw(self.__canvas, x1, y1, x2, y2, fill_color)
+        cell.draw(x1, y1, x2, y2, fill_color)
 
     def get_canvas(self):
         return self.__canvas
