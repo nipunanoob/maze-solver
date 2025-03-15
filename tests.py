@@ -64,6 +64,19 @@ class Tests(unittest.TestCase):
             m1 = Maze(0, 0, num_rows, num_cols, 10, 10)
         self.assertEqual(cm.exception.args[0],"Maze dimensions cannot exceed 100x100")
 
+    def test_maze_break_entrance_and_exit(self):
+        num_cols = 10
+        num_rows = 25
+        maze = Maze(0, 0, num_rows, num_cols, 10, 10)
+
+        top_left_cell = maze._cells[0][0]
+        bottom_right_cell = maze._cells[maze.num_cols - 1][maze.num_rows - 1]
+
+        self.assertFalse(top_left_cell.has_top_wall) 
+        self.assertFalse(bottom_right_cell.has_down_wall) 
+
+        self.assertTrue(top_left_cell.has_down_wall) 
+        self.assertTrue(bottom_right_cell.has_top_wall) 
 
 if __name__ == "__main__":
     unittest.main()
