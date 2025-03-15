@@ -4,7 +4,7 @@ from window import Window
 
 class Cell():
 
-    def __init__(self, win: Window, has_left_wall=True, has_top_wall=True, has_right_wall=True, has_down_wall=True):
+    def __init__(self, win: Window = None, has_left_wall=True, has_top_wall=True, has_right_wall=True, has_down_wall=True):
 
         self.has_left_wall = has_left_wall
         self.has_right_wall = has_right_wall
@@ -41,15 +41,23 @@ class Cell():
 
         if self.has_left_wall:
             l1.draw(self.win.get_canvas(), fill_color)
-            
+        else:
+            l1.draw(self.win.get_canvas(), "#d9d9d9")
+
         if self.has_top_wall:
             l2.draw(self.win.get_canvas(), fill_color)
+        else:
+            l2.draw(self.win.get_canvas(), "#d9d9d9")
             
         if self.has_right_wall:
             l3.draw(self.win.get_canvas(), fill_color)
-            
+        else:
+            l3.draw(self.win.get_canvas(), "#d9d9d9")
+
         if self.has_down_wall:
             l4.draw(self.win.get_canvas(), fill_color)
+        else:
+            l4.draw(self.win.get_canvas(), "#d9d9d9")
             
     def draw_move(self, to_cell: "Cell", undo=False):
         first_cell_center = Point(
