@@ -27,7 +27,8 @@ class Maze():
         self._break_entrance_and_exit()
         print("Breaking walls")
         self._break_walls_r(0,0)
-        print("Walls broken, maze created :D")
+        print("Maze generated!")
+        self._reset_cells_visited()
     
     def _create_cells(self):
         MAX_ROWS = 100
@@ -109,3 +110,8 @@ class Maze():
                 self._draw_cell(i,j-1)
 
             self._break_walls_r(next_cell_idx[0],next_cell_idx[1])
+    
+    def _reset_cells_visited(self):
+        for i in range(self.num_cols):
+            for j in range(self.num_rows):
+                self._cells[i][j]._visited = False
