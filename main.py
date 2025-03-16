@@ -19,7 +19,11 @@ def main():
     # cell1.draw_move(cell2)
     # cell1.draw_move(win.get_canvas(),cell2,True)
 
-    maze = Maze(220,75, 5, 7, 50, 50, win)
+    maze = Maze(220,75, 6, 5, 50, 50, win)
+    if (maze.solve()):
+        print("Maze solved!")
+    else:
+        print("Maze unsolved!")
 
     win.wait_for_close()
 
