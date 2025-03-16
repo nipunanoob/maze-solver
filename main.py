@@ -19,7 +19,7 @@ def main():
     # cell1.draw_move(cell2)
     # cell1.draw_move(win.get_canvas(),cell2,True)
 
-    maze = Maze(220,155, 3, 5, 75, 75, win)
+    maze = Maze(220,75, 10, 10, 50, 50, win)
 
     win.wait_for_close()
 

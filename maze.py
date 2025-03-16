@@ -1,5 +1,6 @@
 from cell import Cell
 import time
+import random
 
 class Maze():
     def __init__(
@@ -11,6 +12,7 @@ class Maze():
             cell_size_x,
             cell_size_y,
             win=None,
+            seed=None
         ):
         self.x1 = x1
         self.y1 = y1
@@ -18,11 +20,14 @@ class Maze():
         self.num_cols = num_cols
         self.cell_size_x = cell_size_x
         self.cell_size_y = cell_size_y
-        self.win = win
-        
+        self.win = win 
 
+        random.seed(seed)
         self._create_cells()
         self._break_entrance_and_exit()
+        print("Breaking walls")
+        self._break_walls_r(0,0)
+        print("Walls broken, maze created :D")
     
     def _create_cells(self):
         MAX_ROWS = 100
@@ -57,6 +62,50 @@ class Maze():
         top_left_cell = self._cells[0][0]
         bottom_right_cell = self._cells[max_col_idx][max_row_idx]
         top_left_cell.has_top_wall = False
+        print(f"Destroying wall at entrance (0,0)")
         self._draw_cell(0,0)
         bottom_right_cell.has_down_wall = False
+        print(f"Destroying wall at exit ({max_col_idx},{max_row_idx})")
         self._draw_cell(max_col_idx, max_row_idx)
+
+    def _break_walls_r(self, i , j):
+        current_idx = (i, j)
+        self._cells[i][j]._visited = True #i is col idx, j is row idx
+        while True:
+            non_visited_neighbours = []
+            if i > 0 and  not self._cells[i-1][j]._visited: #check left neighbour
+                    non_visited_neighbours.append((i-1, j))
+            if i < self.num_cols - 1 and not self._cells[i+1][j]._visited: #check right neighbour
+                    non_visited_neighbours.append((i+1, j))
+            if j > 0 and  not self._cells[i][j-1]._visited: #check top neighbour
+                    non_visited_neighbours.append((i, j-1))
+            if j < self.num_rows - 1 and not self._cells[i][j+1]._visited: #check bot neighbour
+                    non_visited_neighbours.append((i, j+1))
+            if len(non_visited_neighbours) == 0:
+                self._draw_cell(i, j)
+                return
+        
+            next_cell_idx = non_visited_neighbours[random.randrange(0,len(non_visited_neighbours))]
+            direction = tuple(x - y for x, y in zip(next_cell_idx, current_idx))
+            if direction == (1,0):
+                self._cells[i][j].has_right_wall = False
+                self._cells[i+1][j].has_left_wall = False
+                self._draw_cell(i,j)
+                self._draw_cell(i+1,j)
+            elif direction == (-1,0):
+                self._cells[i][j].has_left_wall = False
+                self._cells[i-1][j].has_right_wall = False
+                self._draw_cell(i,j)
+                self._draw_cell(i-1,j)
+            elif direction == (0, 1):
+                self._cells[i][j].has_down_wall = False
+                self._cells[i][j+1].has_top_wall = False
+                self._draw_cell(i,j)
+                self._draw_cell(i,j+1)
+            elif direction == (0, -1):
+                self._cells[i][j].has_top_wall = False
+                self._cells[i][j-1].has_down_wall = False
+                self._draw_cell(i,j)
+                self._draw_cell(i,j-1)
+
+            self._break_walls_r(next_cell_idx[0],next_cell_idx[1])
